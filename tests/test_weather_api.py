@@ -77,3 +77,27 @@ def test_weather_stats_api_with_station_id_param_filter(test_client):
     assert response.status_code == 200
     assert response.json()['count'] == 10
     assert response.json()['data'][0]['station_id'] == 12
+    
+def test_weather_api_with_station_id_param_filter_1(test_client):
+    response = test_client.get('/api/weather/?station_id=-1')
+    assert response.status_code == 404
+    
+def test_weather_api_with_date_param_filter_1(test_client):
+    response = test_client.get('/api/weather/?date=-1')
+    assert response.status_code == 400
+   
+def test_weather_api_with_page_param_filter_1(test_client):
+    response = test_client.get('/api/weather/?page=abc')
+    assert response.status_code == 422
+     
+def test_weather_stats_api_with_station_id_param_filter_1(test_client):
+    response = test_client.get('/api/weather/stats?station_id=-1')
+    assert response.status_code == 404
+
+def test_weather_stats_api_with_year_param_filter_1(test_client):
+    response = test_client.get('/api/weather/stats?year=-1')
+    assert response.status_code == 404
+    
+def test_weather_stats_api_with_page_param_filter_1(test_client):
+    response = test_client.get('/api/weather/stats?page=abc')
+    assert response.status_code == 422
