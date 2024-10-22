@@ -1,0 +1,8 @@
+fastapi
+SQLAlchemy
+uvicorn
+psycopg2-binary
+python-dotenv
+pytest-cov
+pytest
+httpx
