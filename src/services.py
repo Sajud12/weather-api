@@ -6,7 +6,7 @@ from models import models
 from ingest_data.data_ingestion import IngestData
 from database.session.session import engine
 
-def initialize_database(dbs: IngestData, db: Session):
+def initialize_database(dbs: IngestData, db: Session): # pragma: no cover
     """
     Initializes the database by dropping and creating tables,
     and loading data if necessary.

@@ -6,3 +6,4 @@ python-dotenv
 pytest-cov
 pytest
 httpx
+tqdm

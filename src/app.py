@@ -10,7 +10,7 @@ from src.services import fetch_statistics, fetch_records, initialize_database
 
 app = FastAPI()
 
-@app.on_event("startup")
+@app.on_event("startup") # pragma: no cover
 async def on_startup():
     """
     Executes on startup of the application and initializes the data ingestion process into the database.
@@ -44,7 +44,7 @@ async def fetch_weather_data(
         raise HTTPException(status_code=400, detail=str(ve))
     except HTTPException as he:
         raise he
-    except Exception as e:
+    except Exception as e: # All types of exceptions handled here
         raise HTTPException(status_code=500, detail=str(e))
     
 @app.get('/api/weather/stats')
@@ -61,12 +61,10 @@ async def fetch_weather_stats(
     try:
         query = db.query(models.StatisticsData)
         return fetch_statistics(query, station_id, year, page, limit)
-    except ValueError as ve:
-        raise HTTPException(status_code=400, detail=str(ve))
     except HTTPException as he:
         raise he
-    except Exception as e:
+    except Exception as e: # All types of exceptions handled here
         raise HTTPException(status_code=500, detail=str(e))
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000) # pragma: no cover

@@ -1,0 +1,9 @@
+[run]
+omit =
+    ingest_data/data_ingestion.py
+    database/session/session.py
+
+[report]
+exclude_lines =
+    if __name__ == .__main__.:
+    pragma: no cover

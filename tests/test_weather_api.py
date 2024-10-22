@@ -1,7 +1,9 @@
+from fastapi import HTTPException
 import pytest
 import os
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
+from ingest_data.data_ingestion import IngestData
 from src.app import app, get_database_session
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import sessionmaker
@@ -86,6 +88,10 @@ def test_weather_api_with_date_param_filter_1(test_client):
     response = test_client.get('/api/weather/?date=-1')
     assert response.status_code == 400
    
+def test_weather_api_with_date_param_filter_3(test_client):
+    response = test_client.get('/api/weather/?date=19000101')
+    assert response.status_code == 404
+    
 def test_weather_api_with_page_param_filter_1(test_client):
     response = test_client.get('/api/weather/?page=abc')
     assert response.status_code == 422

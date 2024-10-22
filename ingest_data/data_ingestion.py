@@ -4,6 +4,7 @@ import psycopg2
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
+from tqdm import tqdm  # Import TQDM
 
 from database.queries.records_query import QUERY_INSERT_RECORDS
 from database.queries.stations_query import QUERY_INSERT_STATION, QUERY_BY_STATION_ID
@@ -18,7 +19,7 @@ class IngestData:
         self.generate_logger_file()
         
     def _get_db_config(self):
-            return {
+        return {
             'dbname': os.getenv("DB_NAME"),
             'user': os.getenv("DB_USER"),
             'password': os.getenv("DB_PASSWORD"),
@@ -48,11 +49,15 @@ class IngestData:
     def data_loading_from_input_files(self, folder_path: str = 'data/wx_data'):
         start_time = datetime.now()
         file_list = os.listdir(folder_path)
+        
         with self.database_connection() as connection:
             cursor = connection.cursor()
-            for file_name in file_list:
+            
+            # Use TQDM to show progress for file processing
+            for file_name in tqdm(file_list, desc='Processing files', unit='file'):
                 if file_name.endswith('.txt'):
                     self.file_processing(cursor, folder_path, file_name)
+                    
             connection.commit()
 
         end_time = datetime.now()
@@ -64,7 +69,9 @@ class IngestData:
 
         station_id = self.insert_data_into_station_table(cursor, station_name)
         records = self.read_data_from_files(file_path, station_id)
-        self.insert_data_into_table(cursor, records)
+        
+        for record in records:
+            self.insert_data_into_table(cursor, record)
     
     def insert_data_into_station_table(self, cursor, station_name: str) -> int:
         cursor.execute(QUERY_INSERT_STATION, (station_name,))
@@ -87,8 +94,5 @@ class IngestData:
                     records.append(record)
         return records
 
-    def insert_data_into_table(self, cursor, records: list):
-        for record in records:
-            cursor.execute(QUERY_INSERT_RECORDS, record)
-
-
+    def insert_data_into_table(self, cursor, record: list):
+        cursor.execute(QUERY_INSERT_RECORDS, record)

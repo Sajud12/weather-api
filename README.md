@@ -38,24 +38,25 @@ This is a Weather API Application to perform api calls to fetch respective weath
 ```bash
   pip install -r requirements.txt
 ```
-
-## Steps for Database Setup and Installation.
-1. Firstly, need to download and install database - PostgreSQL in your system. Refer to link `https://www.postgresql.org/download/` for same.
-2. Now create a database using command below:-
-```bash
-CREATE DATABASE database_name;
-```
-
+---
 ## Setup environment variables.
 Create a .env file in root directory of project and accordingly store your database credentials in given format:-
 ```bash
-DB_USER='user_name_for_db'
-DB_PASSWORD='password_of_db'
-DB_NAME='name_of_db'
-DB_HOST='host_of_db'
-DB_PORT='port_number_of_db'
-DB_URL='f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"'
-TEST_URL='f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"'
+    DB_NAME = postgres
+    DB_USER = postgres
+    DB_HOST = localhost
+    DB_PORT =  5432
+    DB_URL=postgresql://postgres:@localhost:5432/postgres
+    TEST_URL=postgresql://postgres:@localhost:5432/postgres
+```
+OR
+#### <mark>Rename</mark> .env.dev file to .env file before usage.
+
+## Setup Database via Docker
+- Download Docker Desktop application from internet if not installed.
+- To setup database run below command:
+```bash
+    docker-compose up --build
 ```
 
 ### Step to run the api server
@@ -64,7 +65,7 @@ uvicorn src.app:app --host 127.0.0.1 --port 8000 --reload
 ```
 # Screenshots of Api server running
 
-![Alt text](static/app-start.png?raw=true "api server")
+![Alt text](static/app-starting.png?raw=true "api server")
 
 ### Data Ingestion Process Info:
 - Data ingestion process starts automatically when application starts running.
@@ -91,7 +92,7 @@ pytest --cov
 
 # Screenshots of test cases
 
-![Alt text](static/testing.png?raw=true "test cases")
+![Alt text](static/testing-cov.png?raw=true "test cases")
 
 ## API Documentation
 After running the project and use following URL to access the API documentation.
