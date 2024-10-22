@@ -20,7 +20,7 @@ This is a Weather API Application to perform api calls to fetch respective weath
 
 2. Move to project directory
 ```bash
-  cd weather_api
+  cd weather-api
 ```
 
 3. Creation of virtual environment
